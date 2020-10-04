@@ -1,24 +1,2 @@
-# learnterminal.com
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+learnterminal ~~(better name pending)~~ is a tool for learning basic terminal commands through similar UI and in a completely
+safe space

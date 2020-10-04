@@ -1,28 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <terminal />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Terminal from './components/Terminal.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Terminal
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+<style lang="sass" scoped>
+#app
+  display: flex
+  box-sizing: border-box
+  background: lightblue
+  min-height: 100vh
+  padding: .8em
 </style>
