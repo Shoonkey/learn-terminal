@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Terminal from './components/Terminal.vue';
+import Terminal from './components/Terminal';
 
 export default {
   name: 'App',

@@ -4,13 +4,72 @@
       <p class="title">Terminal</p>
     </div>
     <main class="content-area">
+      <terminal-log :content="log" />
+      <terminal-input 
+        v-if="runningCommand == null" 
+        :path="path"
+        @submit="runCommand" 
+      />
     </main>
   </div>
 </template>
 
 <script>
+import TerminalInput from './TerminalInput';
+import TerminalLog from './TerminalLog';
+
 export default {
-  name: 'Terminal'
+  name: 'terminal',
+  components: { TerminalInput, TerminalLog },
+  data: () => ({
+    log: [
+      { 
+        type: 'COMMAND_OUTPUT', 
+        text: 
+          "\tThis is a simulation of a terminal where you can learn basic terminal " +
+          "functionalities.\n" +
+          "\tHere you can learn how to create folders, move through them, look at files, run " +
+          "programs and all sorts of stuff. There's a lot that can be done through the " +
+          "terminal!\n" +
+          "\tTo learn more, type 'start' down below and press Enter."
+      }
+    ],
+    path: "C:/Users/You",
+    input: "",
+    runningCommand: null
+  }),
+  methods: {
+    updateLog(){},
+    addLog(type, text, args){
+      this.log.push({ path: this.path, type, text, args });
+    },
+    buildShell(){
+      return {
+        getPath: () => this.path,
+        setPath: newPath => this.path = newPath,
+        print: text => this.addLog('COMMAND_OUTPUT', text),
+        clear: () => this.log.splice(0, this.log.length)
+      }
+    },
+    runCommand(input){
+
+      const [command, ...args] = input.split(' ');
+
+      this.addLog('COMMAND', input);
+      this.runningCommand = command;
+
+      try {
+        const commandFn = require("../commands/" + command).default;
+        commandFn(this.buildShell(), args);
+      } catch (e){
+        console.error(e);
+        this.addLog('COMMAND_OUTPUT', `Command "${command}" not found.`);
+      }
+      
+      this.runningCommand = null;
+
+    }
+  }
 }
 </script>
 
@@ -19,22 +78,34 @@ export default {
 .terminal
   display: flex
   flex-direction: column
+
   flex-grow: 1
+
   font-family: "Fira Code", monospace
+  font-size: 1em
   letter-spacing: 1.3px
+  
   background: #1b1b1b
-  color: #41ff33
+  color: #e2e2e2
 
   .window-action-bar
     display: inherit
     background: #4b4b4b
     align-items: center
     .title
+      color: #41ff33
       margin: 0
       padding: .5em 0 .5em 1em
       font-weight: bold
   
   .content-area
-    background: inherit
+    display: flex
+    flex-direction: column
     flex-grow: 1
+    max-height: 90vh
+    overflow-y: auto
+    font-size: .8em
+    background: inherit
+    padding: .5em 1em
+    white-space: pre-wrap
 </style>
