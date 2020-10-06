@@ -1,12 +1,13 @@
 <template>
-  <div class="terminal">
+  <div class="terminal" @click="focusTerminalInput()">
     <div class="window-action-bar">
       <p class="title">Terminal</p>
     </div>
-    <main class="content-area">
+    <main class="content-area" ref="terminal-content">
       <terminal-log :content="log" />
       <terminal-input 
         v-if="runningCommand == null" 
+        ref="terminal-input"
         :path="path"
         @submit="runCommand" 
       />
@@ -39,7 +40,14 @@ export default {
     runningCommand: null
   }),
   methods: {
-    updateLog(){},
+    focusTerminalInput(){
+      const terminalInput = this.$refs["terminal-input"].$refs.input;
+      terminalInput.focus();
+    },
+    scrollToBottom(){
+      const terminalContent = this.$refs["terminal-content"];
+      terminalContent.scrollTo(0, terminalContent.scrollHeight);
+    },
     addLog(type, text, args){
       this.log.push({ path: this.path, type, text, args });
     },
@@ -67,6 +75,12 @@ export default {
       }
       
       this.runningCommand = null;
+
+      // wait until DOM updates with the new terminal logs and then scroll to bottom.
+      // This ensures that if a command makes content overflow the terminal container, the
+      // user doesn't need to scroll manually to the bottom of it, which is default behavior in the
+      // terminal as far as I've seen
+      this.$nextTick(this.scrollToBottom);
 
     }
   }
