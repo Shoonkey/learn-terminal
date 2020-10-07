@@ -8,7 +8,7 @@
       <terminal-input 
         v-if="runningCommand == null" 
         ref="terminal-input"
-        :path="path"
+        :path="fileSystem.getCurrentPosition()"
         @submit="runCommand" 
       />
     </main>
@@ -18,6 +18,7 @@
 <script>
 import TerminalInput from './TerminalInput';
 import TerminalLog from './TerminalLog';
+import fileSystem from '../fileSystem';
 
 export default {
   name: 'terminal',
@@ -32,10 +33,10 @@ export default {
           "\tHere you can learn how to create folders, move through them, look at files, run " +
           "programs and all sorts of stuff. There's a lot that can be done through the " +
           "terminal!\n" +
-          "\tTo learn more, type 'start' down below and press Enter."
+          "\tTo learn more, type 'tutorial start' down below and press Enter."
       }
     ],
-    path: "C:/Users/You",
+    fileSystem,
     input: "",
     runningCommand: null
   }),
@@ -49,12 +50,11 @@ export default {
       terminalContent.scrollTo(0, terminalContent.scrollHeight);
     },
     addLog(type, text, args){
-      this.log.push({ path: this.path, type, text, args });
+      this.log.push({ path: this.fileSystem.getCurrentPosition(), type, text, args });
     },
     buildShell(){
       return {
-        getPath: () => this.path,
-        setPath: newPath => this.path = newPath,
+        getFileSystem: () => this.fileSystem,
         print: text => this.addLog('COMMAND_OUTPUT', text),
         clear: () => this.log.splice(0, this.log.length)
       }
@@ -67,8 +67,8 @@ export default {
       this.runningCommand = command;
 
       try {
-        const commandFn = require("../commands/" + command).default;
-        commandFn(this.buildShell(), args);
+        const { default: commandFunction } = require("../commands/" + command);
+        commandFunction(this.buildShell(), args);
       } catch (e){
         console.error(e);
         this.addLog('COMMAND_OUTPUT', `Command "${command}" not found.`);
@@ -98,6 +98,7 @@ export default {
   font-family: "Fira Code", monospace
   font-size: 1em
   letter-spacing: 1.3px
+  tab-size: 4
   
   background: #1b1b1b
   color: #e2e2e2

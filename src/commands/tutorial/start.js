@@ -1,4 +1,11 @@
-export default function help(shell){
+export default function start(shell, args){
+
+  if (args[0] == '/?'){
+    shell.print(
+      "\tThis is the first command of the tutorial. Running it will take you to the very start!"
+    );
+    return;
+  }
 
   shell.print(
     "\tEverything you write into a terminal is a command, that is processed once you press " +
@@ -8,8 +15,8 @@ export default function help(shell){
     "options: Command Prompt and PowerShell.\n" +
     "\tEach one of them has its peculiarities as to how things are written and processed, but " +
     "they all allow you to navigate through the system at the most basic level, usually without " +
-    "any UI at all, just through commands. 'help' itself was a command you just typed into the " +
-    "terminal!\n" +
+    "any UI at all, just through commands. 'tutorial' itself was a command you just typed into " +
+    "the terminal!\n" +
     "\tSo let's begin the journey by taking a look at some commands. The first one will be " +
     "'dir'. Try typing it down below. Can you figure out what it does?\n" +
     "\tWhen you're done, you can type the command 'dir /?' to continue."

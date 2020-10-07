@@ -18,10 +18,7 @@ export default function dir(shell, args){
     return;
   }
 
-
-  shell.print(
-    ["docs/", "images/", "videos/", "file1.txt", "file2.png"]
-      .join('\n')
-  );
+  const cwdItems = shell.getFileSystem().getContentList();
+  shell.print(cwdItems.map(item => `\t${item}`).join('\n'));
 
 }
