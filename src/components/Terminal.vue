@@ -121,13 +121,30 @@ export default {
       font-weight: bold
   
   .content-area
+
     display: flex
     flex-direction: column
     flex-grow: 1
-    max-height: 90vh
-    overflow-y: auto
-    font-size: .8em
+
     background: inherit
     padding: .5em 1em
+    max-height: 90vh
+    overflow-y: auto
+
+    font-size: .8em
     white-space: pre-wrap
+
+    &::-webkit-scrollbar
+      width: 6px
+    
+    &::-webkit-scrollbar-track
+      border-radius: 4px
+      background: #4b4b4b
+    
+    &::-webkit-scrollbar-thumb
+      border-radius: 4px
+      background: #41ff33
+    
+    
+
 </style>
