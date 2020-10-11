@@ -93,6 +93,12 @@ export default {
   display: flex
   flex-direction: column
 
+  max-width: 900px
+  height: 500px
+
+  @media screen and (max-width: 420px)
+    height: 95vh
+
   flex-grow: 1
 
   font-family: "Fira Code", monospace

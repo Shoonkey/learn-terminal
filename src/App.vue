@@ -19,6 +19,8 @@ export default {
 <style lang="sass">
 #app
   display: flex
+  justify-content: center
+  align-items: center
   box-sizing: border-box
   background: lightblue
   min-height: 100vh
