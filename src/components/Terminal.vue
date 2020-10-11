@@ -18,7 +18,9 @@
 <script>
 import TerminalInput from './TerminalInput';
 import TerminalLog from './TerminalLog';
+
 import fileSystem from '../fileSystem';
+import { runCommandModule } from '../shell/util';
 
 export default {
   name: 'terminal',
@@ -67,8 +69,7 @@ export default {
       this.runningCommand = command;
 
       try {
-        const { default: commandFunction } = require("../commands/" + command);
-        commandFunction(this.buildShell(), args);
+        runCommandModule(command, this.buildShell(), args);
       } catch (e){
         console.error(e);
         this.addLog('COMMAND_OUTPUT', `Command "${command}" not found.`);
