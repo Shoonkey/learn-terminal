@@ -35,7 +35,18 @@ class FileSystem {
   }
 
   getContentList(){
-    return this.cwd.content;
+
+    let content = [];
+
+    // Add the references to the parent folder and to the folder itself if the current working 
+    // directory is not the root
+    if (this.cwd.name !== 'C:')
+      content.push(".", "..");
+
+    content.push(...this.cwd.content);
+
+    return content;
+
   }
 
 }
